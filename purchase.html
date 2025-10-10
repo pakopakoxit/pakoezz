@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Procéder au Paiement - Pako Cheats</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="images/logo.png" alt="Pako Cheats">
+                    <span class="logo-text">Pako Cheats</span>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="panels.html">Panels</a></li>
+                        <li><a href="purchase.html" class="active">Acheter</a></li>
+                        <li><a href="support.html">Support</a></li>
+                    </ul>
+                </nav>
+                <div class="user-actions">
+                    <div class="user-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="cart-icon" id="cartIcon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Procéder au Paiement</h1>
+            <p>Finalisez votre achat en suivant les étapes</p>
+        </div>
+    </section>
+
+    <section class="purchase-process">
+        <div class="container">
+            <div class="purchase-steps">
+                <div class="step active">1. Panier</div>
+                <div class="step active">2. Paiement</div>
+                <div class="step">3. Confirmation</div>
+            </div>
+
+            <div class="purchase-content">
+                <div class="order-summary">
+                    <h3>Résumé de la Commande</h3>
+                    <div id="orderItems"></div>
+                    <div class="order-total">
+                        Total: <span id="orderTotal">0,00€</span>
+                    </div>
+                </div>
+
+                <div class="payment-method">
+                    <h3>Méthode de Paiement</h3>
+                    <div class="payment-info">
+                        <div class="payment-step">
+                            <h4><i class="fas fa-money-bill-wave"></i> Paiement par Virement</h4>
+                            <p>Effectuez un virement avec le code unique généré pour votre commande</p>
+                        </div>
+
+                        <div class="payment-instructions">
+                            <h4>Instructions de Paiement:</h4>
+                            <ol>
+                                <li>Votre code de transaction unique: <strong id="transactionCode">Chargement...</strong></li>
+                                <li>Effectuez un virement de <strong id="paymentAmount">0,00€</strong> vers notre compte</li>
+                                <li>Dans le motif du virement, indiquez uniquement votre code: <strong id="transactionCodeDisplay">Chargement...</strong></li>
+                                <li>Prenez une capture d'écran COMPLÈTE de la confirmation de virement</li>
+                                <li>Envoyez la capture d'écran sur notre Discord/Telegram</li>
+                            </ol>
+                        </div>
+
+                        <div class="bank-info">
+                            <h4>Informations Bancaires:</h4>
+                            <div class="bank-details">
+                                <p><strong>IBAN:</strong> FR76 3000 4000 0100 0000 0000 123</p>
+                                <p><strong>BIC:</strong> BNPAFRPPXXX</p>
+                                <p><strong>Titulaire:</strong> PAKO CHEATS</p>
+                                <p><strong>Montant:</strong> <span id="bankAmount">0,00€</span></p>
+                            </div>
+                        </div>
+
+                        <div class="screenshot-guide">
+                            <h4><i class="fas fa-camera"></i> Guide de Capture d'Écran</h4>
+                            <p>Votre capture d'écran doit montrer:</p>
+                            <ul>
+                                <li>La confirmation complète du virement</li>
+                                <li>Le montant exact</li>
+                                <li>Le motif avec le code de transaction</li>
+                                <li>La date et l'heure</li>
+                            </ul>
+                            <div class="screenshot-example">
+                                <img src="images/payment-method.png" alt="Exemple de capture d'écran">
+                                <p>Exemple de capture d'écran requise</p>
+                            </div>
+                        </div>
+
+                        <div class="confirmation-section">
+                            <button id="confirmPayment" class="btn btn-primary">
+                                <i class="fas fa-check"></i> J'ai Effectué le Paiement
+                            </button>
+                            <p class="note">Après confirmation, notre équipe vérifiera votre paiement sous 2h maximum</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <!-- Même footer que index.html -->
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
