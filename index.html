@@ -3,14 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PakoEzz - Boutique Officielle Free Fire</title>
+    <title>PakoEzz - Boutique de Services Free Fire</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #1a73e8;
-            --dark: #0f1419;
-            --light: #ffffff;
-            --gray: #f8f9fa;
-            --text: #202124;
+            --primary: #ff4655;
+            --secondary: #0f1923;
+            --accent: #1a2b3c;
+            --dark: #0a0f14;
+            --light: #ece8e1;
+            --text: #ffffff;
+            --success: #2ecc71;
+            --warning: #f39c12;
         }
         
         * {
@@ -21,9 +25,10 @@
         }
         
         body {
-            background-color: var(--light);
+            background: linear-gradient(135deg, var(--dark) 0%, var(--secondary) 100%);
             color: var(--text);
             line-height: 1.6;
+            min-height: 100vh;
         }
         
         .container {
@@ -35,10 +40,13 @@
         
         /* Header */
         header {
-            background-color: var(--dark);
-            color: var(--light);
+            background-color: rgba(15, 25, 35, 0.9);
             padding: 15px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
         }
         
         .header-content {
@@ -48,13 +56,22 @@
         }
         
         .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
-        .logo span {
+        .logo-icon {
             color: var(--primary);
+            font-size: 28px;
+        }
+        
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--primary), #ff6b7a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
         nav ul {
@@ -63,7 +80,8 @@
         }
         
         nav ul li {
-            margin-left: 20px;
+            margin-left: 25px;
+            position: relative;
         }
         
         nav ul li a {
@@ -71,15 +89,44 @@
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s;
+            padding: 5px 0;
         }
         
         nav ul li a:hover {
             color: var(--primary);
         }
         
-        .cart-icon {
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s;
+        }
+        
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+        
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .cart-icon, .user-icon {
             position: relative;
             cursor: pointer;
+            font-size: 20px;
+            color: var(--light);
+            transition: color 0.3s;
+        }
+        
+        .cart-icon:hover, .user-icon:hover {
+            color: var(--primary);
         }
         
         .cart-count {
@@ -99,112 +146,247 @@
         
         /* Hero Banner */
         .hero {
-            background: linear-gradient(rgba(15, 20, 25, 0.8), rgba(15, 20, 25, 0.8)), url('https://via.placeholder.com/1200x600') no-repeat center center/cover;
+            background: linear-gradient(rgba(10, 15, 20, 0.85), rgba(10, 15, 20, 0.9)), url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
             color: var(--light);
-            padding: 100px 0;
+            padding: 120px 0;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, rgba(15, 25, 35, 0.8) 100%);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
         }
         
         .hero h1 {
             font-size: 48px;
             margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
         }
         
         .hero p {
             font-size: 20px;
-            max-width: 700px;
-            margin: 0 auto 30px;
+            margin-bottom: 30px;
+            color: #d0d0d0;
         }
         
         .btn {
             display: inline-block;
-            background-color: var(--primary);
+            background: linear-gradient(45deg, var(--primary), #ff6b7a);
             color: var(--light);
-            padding: 12px 30px;
+            padding: 14px 35px;
             border-radius: 5px;
             text-decoration: none;
             font-weight: bold;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 70, 85, 0.4);
         }
         
         .btn:hover {
-            background-color: #0d5bb9;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 70, 85, 0.6);
         }
         
-        /* Products Section */
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            box-shadow: none;
+        }
+        
+        .btn-outline:hover {
+            background: rgba(255, 70, 85, 0.1);
+        }
+        
+        /* Features */
+        .features {
+            padding: 80px 0;
+        }
+        
         .section-title {
             text-align: center;
-            margin: 60px 0 30px;
-            font-size: 32px;
+            margin-bottom: 50px;
+            font-size: 36px;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(45deg, var(--primary), #ff6b7a);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: rgba(26, 43, 60, 0.7);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .feature-title {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+        
+        /* Products */
+        .products {
+            padding: 80px 0;
+            background: rgba(10, 15, 20, 0.5);
         }
         
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 30px;
-            margin-bottom: 60px;
         }
         
         .product-card {
-            background-color: var(--light);
-            border-radius: 8px;
+            background: rgba(26, 43, 60, 0.7);
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .product-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--primary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
         }
         
         .product-image {
-            height: 200px;
-            background-color: #eee;
+            height: 180px;
+            background: linear-gradient(45deg, #1a2b3c, #2a3b4c);
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,70,85,0.2), rgba(26,43,60,0.8));
+        }
+        
+        .product-image i {
+            font-size: 60px;
+            color: rgba(255,255,255,0.2);
+            z-index: 1;
         }
         
         .product-info {
-            padding: 20px;
+            padding: 25px;
         }
         
         .product-title {
-            font-size: 18px;
+            font-size: 20px;
             margin-bottom: 10px;
+        }
+        
+        .product-description {
+            color: #b0b0b0;
+            margin-bottom: 15px;
+            font-size: 14px;
         }
         
         .product-price {
-            font-size: 20px;
+            font-size: 24px;
             font-weight: bold;
             color: var(--primary);
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
         
-        .product-stock {
-            color: #28a745;
-            margin-bottom: 15px;
+        .product-features {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+        
+        .product-features li {
+            margin-bottom: 8px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .product-features li i {
+            color: var(--success);
+            margin-right: 8px;
+            font-size: 12px;
         }
         
         .add-to-cart {
             width: 100%;
-            padding: 10px;
-            background-color: var(--dark);
+            padding: 12px;
+            background: linear-gradient(45deg, var(--primary), #ff6b7a);
             color: var(--light);
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
+            font-weight: bold;
         }
         
         .add-to-cart:hover {
-            background-color: var(--primary);
+            background: linear-gradient(45deg, #e03e4d, #ff5a6a);
         }
         
         /* Testimonials */
         .testimonials {
-            background-color: var(--gray);
-            padding: 60px 0;
+            padding: 80px 0;
         }
         
         .testimonials-grid {
@@ -214,72 +396,71 @@
         }
         
         .testimonial-card {
-            background-color: var(--light);
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            background: rgba(26, 43, 60, 0.7);
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .testimonial-text {
             font-style: italic;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .testimonial-text::before {
+            content: '"';
+            font-size: 60px;
+            color: rgba(255,70,85,0.3);
+            position: absolute;
+            top: -20px;
+            left: -10px;
         }
         
         .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), #ff6b7a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
             font-weight: bold;
         }
         
-        /* Newsletter */
-        .newsletter {
-            background-color: var(--dark);
-            color: var(--light);
-            padding: 60px 0;
-            text-align: center;
+        .author-info h4 {
+            margin-bottom: 5px;
         }
         
-        .newsletter h2 {
-            margin-bottom: 20px;
-        }
-        
-        .newsletter-form {
-            display: flex;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-        
-        .newsletter-form input {
-            flex: 1;
-            padding: 12px 15px;
-            border: none;
-            border-radius: 5px 0 0 5px;
-        }
-        
-        .newsletter-form button {
-            background-color: var(--primary);
-            color: var(--light);
-            border: none;
-            padding: 0 20px;
-            border-radius: 0 5px 5px 0;
-            cursor: pointer;
+        .author-info p {
+            color: #b0b0b0;
+            font-size: 14px;
         }
         
         /* Footer */
         footer {
-            background-color: var(--dark);
-            color: var(--light);
-            padding: 40px 0 20px;
+            background: rgba(10, 15, 20, 0.9);
+            padding: 60px 0 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
         
         .footer-content {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            margin-bottom: 30px;
+            gap: 40px;
+            margin-bottom: 40px;
         }
         
         .footer-column h3 {
             margin-bottom: 20px;
             font-size: 18px;
+            color: var(--primary);
         }
         
         .footer-column ul {
@@ -287,24 +468,47 @@
         }
         
         .footer-column ul li {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
         
         .footer-column ul li a {
-            color: #aaa;
+            color: #b0b0b0;
             text-decoration: none;
             transition: color 0.3s;
         }
         
         .footer-column ul li a:hover {
+            color: var(--primary);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
             color: var(--light);
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
         }
         
         .copyright {
             text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid #333;
-            color: #aaa;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #b0b0b0;
             font-size: 14px;
         }
         
@@ -316,6 +520,12 @@
             
             nav ul {
                 margin-top: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 5px 10px;
             }
             
             .hero h1 {
@@ -325,17 +535,16 @@
             .hero p {
                 font-size: 18px;
             }
-            
-            .newsletter-form {
-                flex-direction: column;
-            }
-            
-            .newsletter-form input,
-            .newsletter-form button {
-                width: 100%;
-                border-radius: 5px;
-                margin-bottom: 10px;
-            }
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
         }
     </style>
 </head>
@@ -344,18 +553,30 @@
     <header>
         <div class="container">
             <div class="header-content">
-                <div class="logo">Pako<span>Ezz</span></div>
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <div class="logo-text">PakoEzz</div>
+                </div>
                 <nav>
                     <ul>
                         <li><a href="index.html">Accueil</a></li>
-                        <li><a href="index2.html">Boutique</a></li>
-                        <li><a href="index3.html">Blog</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li class="cart-icon">
-                            🛒 <span class="cart-count">0</span>
-                        </li>
+                        <li><a href="panels.html">Panels</a></li>
+                        <li><a href="cheats.html">Cheats</a></li>
+                        <li><a href="boost.html">Boost</a></li>
+                        <li><a href="support.html">Support</a></li>
                     </ul>
                 </nav>
+                <div class="user-actions">
+                    <div class="user-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
@@ -363,65 +584,132 @@
     <!-- Hero Banner -->
     <section class="hero">
         <div class="container">
-            <h1>Boutique Officielle Free Fire</h1>
-            <p>Achetez des diamants, des passes élite et des objets exclusifs pour améliorer votre expérience de jeu</p>
-            <a href="index2.html" class="btn">Explorer la Boutique</a>
+            <div class="hero-content fade-in">
+                <h1>Panels de Triche Free Fire Premium</h1>
+                <p>Services haut de gamme pour dominer le jeu. Indétectable, mise à jour quotidienne et support 24/7.</p>
+                <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                    <a href="#products" class="btn">Voir les Produits</a>
+                    <a href="#features" class="btn btn-outline">En savoir plus</a>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Featured Products -->
-    <section class="container">
-        <h2 class="section-title">Produits Populaires</h2>
-        <div class="products-grid">
-              <!-- Product 1 -->
-            <div class="product-card">
-                <div class="product-image">
-                    <span>Image Diamants</span>
+    <!-- Features -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Pourquoi Nous Choisir</h2>
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Indétectable</h3>
+                    <p>Nos cheats utilisent une technologie avancée pour éviter toute détection par les systèmes anti-triche.</p>
                 </div>
-                <div class="product-info">
-                    <h3 class="product-title">Internal Panel</h3>
-                    <div class="product-price">Starting at 14,99 $US</div>
-                    <div class="product-stock">En stock: Illimited</div>
-                    <button class="add-to-cart">Ajouter au panier</button>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-sync"></i>
+                    </div>
+                    <h3 class="feature-title">Mises à jour quotidiennes</h3>
+                    <p>Nous mettons à jour nos produits quotidiennement pour assurer la compatibilité avec les dernières versions du jeu.</p>
                 </div>
-            </div>
-            
-            <!-- Product 2 -->
-            <div class="product-card">
-                <div class="product-image">
-                    <span>Image Pass Elite</span>
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">External Panel</h3>
-                    <div class="product-price">Starting at 9,99 $US</div>
-                    <div class="product-stock">En stock: Illimited</div>
-                    <button class="add-to-cart">Ajouter au panier</button>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 class="feature-title">Support 24/7</h3>
+                    <p>Notre équipe de support est disponible 24h/24 et 7j/7 pour répondre à toutes vos questions.</p>
                 </div>
             </div>
-            
-            <!-- Product 3 -->
-            <div class="product-card">
-                <div class="product-image">
-                    <span>Image Pack Spécial</span>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section class="products" id="products">
+        <div class="container">
+            <h2 class="section-title">Nos Produits Populaires</h2>
+            <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-card fade-in">
+                    <div class="product-badge">POPULAIRE</div>
+                    <div class="product-image">
+                        <i class="fas fa-crosshairs"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Panel Diamond Elite</h3>
+                        <p class="product-description">Panel complet avec toutes les fonctionnalités premium pour une expérience de jeu ultime.</p>
+                        <div class="product-price">29,99€ <span style="font-size: 14px; color: #b0b0b0; text-decoration: line-through;">49,99€</span></div>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check"></i> AimBot perfectionné</li>
+                            <li><i class="fas fa-check"></i> Wallhack avancé</li>
+                            <li><i class="fas fa-check"></i> Radar hack</li>
+                            <li><i class="fas fa-check"></i> No Recoil</li>
+                            <li><i class="fas fa-check"></i> Support prioritaire</li>
+                        </ul>
+                        <button class="add-to-cart">Ajouter au panier</button>
+                    </div>
                 </div>
-                <div class="product-info">
-                    <h3 class="product-title">Android Panel</h3>
-                    <div class="product-price">Starting at 9,99 $US</div>
-                    <div class="product-stock">En stock: Illimited</div>
-                    <button class="add-to-cart">Ajouter au panier</button>
+                
+                <!-- Product 2 -->
+                <div class="product-card fade-in">
+                    <div class="product-image">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Panel Speed Pro</h3>
+                        <p class="product-description">Optimisé pour la vitesse et la réactivité. Parfait pour les joueurs compétitifs.</p>
+                        <div class="product-price">19,99€</div>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check"></i> Speed Hack</li>
+                            <li><i class="fas fa-check"></i> Jump Hack</li>
+                            <li><i class="fas fa-check"></i> AimBot basique</li>
+                            <li><i class="fas fa-check"></i> No Recoil</li>
+                            <li><i class="fas fa-check"></i> Mises à jour incluses</li>
+                        </ul>
+                        <button class="add-to-cart">Ajouter au panier</button>
+                    </div>
                 </div>
-            </div>
-            
-            <!-- Product 4 -->
-            <div class="product-card">
-                <div class="product-image">
-                    <span>Image Diamants</span>
+                
+                <!-- Product 3 -->
+                <div class="product-card fade-in">
+                    <div class="product-badge">NOUVEAU</div>
+                    <div class="product-image">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Panel Vision Ultimate</h3>
+                        <p class="product-description">Maîtrisez l'environnement de jeu avec des capacités de vision améliorées.</p>
+                        <div class="product-price">24,99€</div>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check"></i> Wallhack ESP</li>
+                            <li><i class="fas fa-check"></i> Item ESP</li>
+                            <li><i class="fas fa-check"></i> Player ESP</li>
+                            <li><i class="fas fa-check"></i> Radar Hack</li>
+                            <li><i class="fas fa-check"></i> Support 24/7</li>
+                        </ul>
+                        <button class="add-to-cart">Ajouter au panier</button>
+                    </div>
                 </div>
-                <div class="product-info">
-                  <h3 class="product-title">Ios Panel</h3>
-                    <div class="product-price">Starting at 9,99 $US</div>
-                    <div class="product-stock">En stock: Illimited</div>
-                    <button class="add-to-cart">Ajouter au panier</button>
+                
+                <!-- Product 4 -->
+                <div class="product-card fade-in">
+                    <div class="product-image">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Bundle Ultimate</h3>
+                        <p class="product-description">Tous nos panels premium regroupés en un seul bundle à prix réduit.</p>
+                        <div class="product-price">49,99€ <span style="font-size: 14px; color: #b0b0b0; text-decoration: line-through;">79,99€</span></div>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check"></i> Tous les panels inclus</li>
+                            <li><i class="fas fa-check"></i> Mises à jour à vie</li>
+                            <li><i class="fas fa-check"></i> Support VIP</li>
+                            <li><i class="fas fa-check"></i> Configurations personnalisées</li>
+                            <li><i class="fas fa-check"></i> Accès anticipé aux nouvelles fonctionnalités</li>
+                        </ul>
+                        <button class="add-to-cart">Ajouter au panier</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -432,31 +720,37 @@
         <div class="container">
             <h2 class="section-title">Avis Clients</h2>
             <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <p class="testimonial-text">"Livraison instantanée comme promis ! J'ai reçu mes diamants en moins de 5 minutes. Je recommande !"</p>
-                    <div class="testimonial-author">- Marc L.</div>
+                <div class="testimonial-card fade-in">
+                    <p class="testimonial-text">J'utilise le Panel Diamond Elite depuis 3 mois et je n'ai jamais été détecté. Les mises à jour sont rapides et le support est excellent. Je recommande à 100% !</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">JD</div>
+                        <div class="author-info">
+                            <h4>John Doe</h4>
+                            <p>Utilisateur depuis 3 mois</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-text">"Service client réactif et produits au meilleur prix. J'achète régulièrement mes passes élite ici."</p>
-                    <div class="testimonial-author">- Sophie T.</div>
+                <div class="testimonial-card fade-in">
+                    <p class="testimonial-text">Le Panel Speed Pro a complètement changé mon expérience de jeu. Je domine maintenant chaque match et mon K/D a augmenté de façon spectaculaire.</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">MS</div>
+                        <div class="author-info">
+                            <h4>Marie Smith</h4>
+                            <p>Utilisatrice depuis 2 mois</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-text">"Site sécurisé et facile à utiliser. J'avais des doutes au début mais tout s'est parfaitement passé."</p>
-                    <div class="testimonial-author">- Kevin D.</div>
+                <div class="testimonial-card fade-in">
+                    <p class="testimonial-text">J'ai essayé plusieurs services avant, mais PakoEzz est de loin le meilleur. Le Bundle Ultimate offre un excellent rapport qualité-prix.</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">AL</div>
+                        <div class="author-info">
+                            <h4>Alex Lambert</h4>
+                            <p>Utilisateur depuis 6 mois</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Newsletter -->
-    <section class="newsletter">
-        <div class="container">
-            <h2>Restez informé des promotions</h2>
-            <p>Inscrivez-vous à notre newsletter pour recevoir des offres exclusives</p>
-            <form class="newsletter-form">
-                <input type="email" placeholder="Votre adresse email" required>
-                <button type="submit">S'abonner</button>
-            </form>
         </div>
     </section>
 
@@ -468,32 +762,46 @@
                     <h3>PakoEzz</h3>
                     <ul>
                         <li><a href="#">À propos</a></li>
+                        <li><a href="#">Nos services</a></li>
+                        <li><a href="#">FAQ</a></li>
                         <li><a href="#">Contact</a></li>
-                        <li><a href="#">Politique de confidentialité</a></li>
-                        <li><a href="#">Conditions d'utilisation</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>Produits</h3>
                     <ul>
-                        <li><a href="#">Diamants</a></li>
-                        <li><a href="#">Passes Elite</a></li>
-                        <li><a href="#">Objets Exclusifs</a></li>
-                        <li><a href="#">Packs Spéciaux</a></li>
+                        <li><a href="#">Panels Free Fire</a></li>
+                        <li><a href="#">Cheats</a></li>
+                        <li><a href="#">Services de boost</a></li>
+                        <li><a href="#">Comptes premium</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>Support</h3>
                     <ul>
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Livraison</a></li>
-                        <li><a href="#">Paiement sécurisé</a></li>
+                        <li><a href="#">Centre d'aide</a></li>
+                        <li><a href="#">Guide d'installation</a></li>
+                        <li><a href="#">Statut des services</a></li>
                         <li><a href="#">Nous contacter</a></li>
                     </ul>
                 </div>
+                <div class="footer-column">
+                    <h3>Légal</h3>
+                    <ul>
+                        <li><a href="#">Conditions d'utilisation</a></li>
+                        <li><a href="#">Politique de confidentialité</a></li>
+                        <li><a href="#">Mentions légales</a></li>
+                        <li><a href="#">Politique de remboursement</a></li>
+                    </ul>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
             </div>
             <div class="copyright">
-                &copy; 2023 PakoEzz Tous droits réservés. Free Fire est une marque déposée de Garena.
+                &copy; 2023 PakoEzz. Tous droits réservés. Free Fire est une marque déposée de Garena. Ce site n'est pas affilié à Garena.
             </div>
         </div>
     </footer>
@@ -511,19 +819,43 @@
                     cartCount.textContent = count;
                     
                     // Animation feedback
+                    const originalText = this.textContent;
                     this.textContent = 'Ajouté !';
-                    this.style.backgroundColor = '#28a745';
+                    this.style.background = 'linear-gradient(45deg, var(--success), #4cd964)';
                     
                     setTimeout(() => {
-                        this.textContent = 'Ajouter au panier';
-                        this.style.backgroundColor = '';
+                        this.textContent = originalText;
+                        this.style.background = 'linear-gradient(45deg, var(--primary), #ff6b7a)';
                     }, 1500);
                 });
             });
+            
+            // Fade in animation on scroll
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const fadeInOnScroll = function() {
+                fadeElements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const elementVisible = 150;
+                    
+                    if (elementTop < window.innerHeight - elementVisible) {
+                        element.style.opacity = "1";
+                        element.style.transform = "translateY(0)";
+                    }
+                });
+            };
+            
+            // Set initial state
+            fadeElements.forEach(element => {
+                element.style.opacity = "0";
+                element.style.transform = "translateY(20px)";
+                element.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+            });
+            
+            window.addEventListener('scroll', fadeInOnScroll);
+            // Initial check
+            fadeInOnScroll();
         });
     </script>
 </body>
 </html>
-
-
-
