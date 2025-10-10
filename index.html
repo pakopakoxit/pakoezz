@@ -1,442 +1,340 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name | Portfolio</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>FreeFireShop - Boutique Officielle Free Fire</title>
     <style>
-        /* Base Styles */
+        :root {
+            --primary: #1a73e8;
+            --dark: #0f1419;
+            --light: #ffffff;
+            --gray: #f8f9fa;
+            --text: #202124;
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
-        :root {
-            --primary-color: #3498db;
-            --secondary-color: #2c3e50;
-            --accent-color: #e74c3c;
-            --light-color: #ecf0f1;
-            --dark-color: #2c3e50;
-            --text-color: #333;
-            --text-light: #777;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
+        
         body {
+            background-color: var(--light);
+            color: var(--text);
             line-height: 1.6;
-            color: var(--text-color);
-            background-color: #f9f9f9;
         }
-
+        
         .container {
             width: 90%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 15px;
         }
-
-        section {
-            padding: 80px 0;
-        }
-
-        h1, h2, h3, h4 {
-            margin-bottom: 20px;
-            color: var(--dark-color);
-        }
-
-        p {
-            margin-bottom: 15px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .btn:hover {
-            background-color: #2980b9;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 50px;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background-color: var(--primary-color);
-        }
-
-        /* Header Styles */
+        
+        /* Header */
         header {
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
+            background-color: var(--dark);
+            color: var(--light);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-
-        .navbar {
+        
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
         }
-
+        
         .logo {
             font-size: 24px;
-            font-weight: 700;
-            color: var(--primary-color);
-            text-decoration: none;
+            font-weight: bold;
+            color: var(--light);
         }
-
-        .nav-links {
+        
+        .logo span {
+            color: var(--primary);
+        }
+        
+        nav ul {
             display: flex;
             list-style: none;
         }
-
-        .nav-links li {
-            margin-left: 30px;
+        
+        nav ul li {
+            margin-left: 20px;
         }
-
-        .nav-links a {
+        
+        nav ul li a {
+            color: var(--light);
             text-decoration: none;
-            color: var(--dark-color);
             font-weight: 500;
-            transition: color 0.3s ease;
+            transition: color 0.3s;
         }
-
-        .nav-links a:hover {
-            color: var(--primary-color);
+        
+        nav ul li a:hover {
+            color: var(--primary);
         }
-
-        .menu-toggle {
-            display: none;
+        
+        .cart-icon {
+            position: relative;
             cursor: pointer;
-            font-size: 24px;
         }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--primary);
             color: white;
-            padding: 150px 0 100px;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Hero Banner */
+        .hero {
+            background: linear-gradient(rgba(15, 20, 25, 0.8), rgba(15, 20, 25, 0.8)), url('https://via.placeholder.com/1200x600') no-repeat center center/cover;
+            color: var(--light);
+            padding: 100px 0;
             text-align: center;
         }
-
-        .hero-content h1 {
-            font-size: 3.5rem;
+        
+        .hero h1 {
+            font-size: 48px;
             margin-bottom: 20px;
-            color: white;
         }
-
-        .hero-content p {
-            font-size: 1.2rem;
+        
+        .hero p {
+            font-size: 20px;
             max-width: 700px;
             margin: 0 auto 30px;
-            color: rgba(255, 255, 255, 0.9);
         }
-
-        .hero-btns {
-            margin-top: 30px;
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: var(--light);
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
         }
-
-        .btn-outline {
-            background-color: transparent;
-            border: 2px solid white;
-            margin-left: 15px;
+        
+        .btn:hover {
+            background-color: #0d5bb9;
         }
-
-        .btn-outline:hover {
-            background-color: white;
-            color: var(--primary-color);
+        
+        /* Products Section */
+        .section-title {
+            text-align: center;
+            margin: 60px 0 30px;
+            font-size: 32px;
         }
-
-        /* About Section */
-        .about {
-            background-color: white;
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
         }
-
-        .about-content {
+        
+        .product-card {
+            background-color: var(--light);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-image {
+            height: 200px;
+            background-color: #eee;
             display: flex;
             align-items: center;
-            gap: 50px;
+            justify-content: center;
         }
-
-        .about-img {
-            flex: 1;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        
+        .product-info {
+            padding: 20px;
         }
-
-        .about-img img {
+        
+        .product-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .product-price {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .product-stock {
+            color: #28a745;
+            margin-bottom: 15px;
+        }
+        
+        .add-to-cart {
             width: 100%;
-            height: auto;
-            display: block;
-            transition: transform 0.5s ease;
+            padding: 10px;
+            background-color: var(--dark);
+            color: var(--light);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
-
-        .about-img:hover img {
-            transform: scale(1.05);
+        
+        .add-to-cart:hover {
+            background-color: var(--primary);
         }
-
-        .about-text {
-            flex: 1;
+        
+        /* Testimonials */
+        .testimonials {
+            background-color: var(--gray);
+            padding: 60px 0;
         }
-
-        .skills {
-            margin-top: 30px;
-        }
-
-        .skill-item {
-            margin-bottom: 20px;
-        }
-
-        .skill-name {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
-        }
-
-        .skill-bar {
-            height: 8px;
-            background-color: #e0e0e0;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .skill-level {
-            height: 100%;
-            background-color: var(--primary-color);
-            border-radius: 4px;
-        }
-
-        /* Projects Section */
-        .projects {
-            background-color: #f5f5f5;
-        }
-
-        .project-grid {
+        
+        .testimonials-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 30px;
         }
-
-        .project-card {
-            background-color: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        
+        .testimonial-card {
+            background-color: var(--light);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
-
-        .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .project-img {
-            height: 200px;
-            overflow: hidden;
-        }
-
-        .project-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .project-card:hover .project-img img {
-            transform: scale(1.1);
-        }
-
-        .project-info {
-            padding: 20px;
-        }
-
-        .project-info h3 {
-            margin-bottom: 10px;
-        }
-
-        .project-info p {
-            color: var(--text-light);
+        
+        .testimonial-text {
+            font-style: italic;
             margin-bottom: 15px;
         }
-
-        .project-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 15px;
+        
+        .testimonial-author {
+            font-weight: bold;
         }
-
-        .project-tags span {
-            background-color: #e0e0e0;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }
-
-        /* Contact Section */
-        .contact {
-            background-color: white;
-        }
-
-        .contact-content {
-            display: flex;
-            gap: 50px;
-        }
-
-        .contact-info {
-            flex: 1;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .contact-icon {
-            width: 50px;
-            height: 50px;
-            background-color: var(--primary-color);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            font-size: 20px;
-        }
-
-        .contact-form {
-            flex: 1;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
-        }
-
-        textarea.form-control {
-            min-height: 150px;
-            resize: vertical;
-        }
-
-        /* Footer */
-        footer {
-            background-color: var(--secondary-color);
-            color: white;
-            padding: 40px 0;
+        
+        /* Newsletter */
+        .newsletter {
+            background-color: var(--dark);
+            color: var(--light);
+            padding: 60px 0;
             text-align: center;
         }
-
-        .social-links {
+        
+        .newsletter h2 {
+            margin-bottom: 20px;
+        }
+        
+        .newsletter-form {
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 20px 0;
+            max-width: 500px;
+            margin: 0 auto;
         }
-
-        .social-links a {
-            color: white;
-            font-size: 20px;
-            transition: color 0.3s ease;
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 5px 0 0 5px;
         }
-
-        .social-links a:hover {
-            color: var(--primary-color);
+        
+        .newsletter-form button {
+            background-color: var(--primary);
+            color: var(--light);
+            border: none;
+            padding: 0 20px;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
         }
-
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: var(--light);
+            padding: 40px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--light);
+        }
+        
         .copyright {
-            margin-top: 20px;
-            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #aaa;
+            font-size: 14px;
         }
-
-        /* Responsive Styles */
-        @media (max-width: 992px) {
-            .about-content, .contact-content {
-                flex-direction: column;
-            }
-            
-            .hero-content h1 {
-                font-size: 2.8rem;
-            }
-        }
-
+        
+        /* Responsive */
         @media (max-width: 768px) {
-            .menu-toggle {
-                display: block;
-            }
-            
-            .nav-links {
-                position: fixed;
-                top: 70px;
-                left: -100%;
-                width: 100%;
-                height: calc(100vh - 70px);
-                background-color: white;
+            .header-content {
                 flex-direction: column;
-                align-items: center;
-                justify-content: flex-start;
-                padding-top: 50px;
-                transition: left 0.3s ease;
             }
             
-            .nav-links.active {
-                left: 0;
+            nav ul {
+                margin-top: 15px;
             }
             
-            .nav-links li {
-                margin: 15px 0;
+            .hero h1 {
+                font-size: 36px;
             }
             
-            .hero-content h1 {
-                font-size: 2.2rem;
+            .hero p {
+                font-size: 18px;
             }
             
-            .hero-content p {
-                font-size: 1rem;
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .newsletter-form input,
+            .newsletter-form button {
+                width: 100%;
+                border-radius: 5px;
+                margin-bottom: 10px;
             }
         }
     </style>
@@ -445,271 +343,182 @@
     <!-- Header -->
     <header>
         <div class="container">
-            <nav class="navbar">
-                <a href="#" class="logo">Portfolio</a>
-                <ul class="nav-links">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-                <div class="menu-toggle">
-                    <i class="fas fa-bars"></i>
-                </div>
-            </nav>
+            <div class="header-content">
+                <div class="logo">FreeFire<span>Shop</span></div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="index2.html">Boutique</a></li>
+                        <li><a href="index3.html">Blog</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li class="cart-icon">
+                            🛒 <span class="cart-count">0</span>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
+    <!-- Hero Banner -->
+    <section class="hero">
         <div class="container">
-            <div class="hero-content">
-                <h1>Hi, I'm <span style="color: #e74c3c;">Ahmed</span></h1>
-                <p>A passionate web developer creating beautiful and functional websites. I love turning complex problems into simple, beautiful designs.</p>
-                <div class="hero-btns">
-                    <a href="#projects" class="btn">View My Work</a>
-                    <a href="#contact" class="btn btn-outline">Contact Me</a>
+            <h1>Boutique Officielle Free Fire</h1>
+            <p>Achetez des diamants, des passes élite et des objets exclusifs pour améliorer votre expérience de jeu</p>
+            <a href="index2.html" class="btn">Explorer la Boutique</a>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="container">
+        <h2 class="section-title">Produits Populaires</h2>
+        <div class="products-grid">
+            <!-- Product 1 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <span>Image Diamants</span>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">100 Diamants</h3>
+                    <div class="product-price">4,99 €</div>
+                    <div class="product-stock">En stock: 500</div>
+                    <button class="add-to-cart">Ajouter au panier</button>
+                </div>
+            </div>
+            
+            <!-- Product 2 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <span>Image Pass Elite</span>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Pass Elite Saison 45</h3>
+                    <div class="product-price">9,99 €</div>
+                    <div class="product-stock">En stock: 200</div>
+                    <button class="add-to-cart">Ajouter au panier</button>
+                </div>
+            </div>
+            
+            <!-- Product 3 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <span>Image Pack Spécial</span>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Pack Débutant</h3>
+                    <div class="product-price">2,99 €</div>
+                    <div class="product-stock">En stock: 150</div>
+                    <button class="add-to-cart">Ajouter au panier</button>
+                </div>
+            </div>
+            
+            <!-- Product 4 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <span>Image Diamants</span>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">520 Diamants</h3>
+                    <div class="product-price">19,99 €</div>
+                    <div class="product-stock">En stock: 300</div>
+                    <button class="add-to-cart">Ajouter au panier</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="about">
+    <!-- Testimonials -->
+    <section class="testimonials">
         <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content">
-                <div class="about-img">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="About Me">
+            <h2 class="section-title">Avis Clients</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Livraison instantanée comme promis ! J'ai reçu mes diamants en moins de 5 minutes. Je recommande !"</p>
+                    <div class="testimonial-author">- Marc L.</div>
                 </div>
-                <div class="about-text">
-                    <h3>Hello! I'm a Web Developer</h3>
-                    <p>I'm a passionate web developer with over 3 years of experience creating responsive and user-friendly websites. I specialize in front-end development but also have experience with back-end technologies.</p>
-                    <p>When I'm not coding, you can find me exploring new technologies, reading tech blogs, or enjoying outdoor activities.</p>
-                    
-                    <div class="skills">
-                        <h3>My Skills</h3>
-                        <div class="skill-item">
-                            <div class="skill-name">
-                                <span>HTML/CSS</span>
-                                <span>90%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-level" style="width: 90%;"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-name">
-                                <span>JavaScript</span>
-                                <span>85%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-level" style="width: 85%;"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-name">
-                                <span>React</span>
-                                <span>80%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-level" style="width: 80%;"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-name">
-                                <span>Node.js</span>
-                                <span>75%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-level" style="width: 75%;"></div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Service client réactif et produits au meilleur prix. J'achète régulièrement mes passes élite ici."</p>
+                    <div class="testimonial-author">- Sophie T.</div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Site sécurisé et facile à utiliser. J'avais des doutes au début mais tout s'est parfaitement passé."</p>
+                    <div class="testimonial-author">- Kevin D.</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Projects Section -->
-    <section id="projects" class="projects">
+    <!-- Newsletter -->
+    <section class="newsletter">
         <div class="container">
-            <h2 class="section-title">My Projects</h2>
-            <div class="project-grid">
-                <div class="project-card">
-                    <div class="project-img">
-                        <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="E-commerce Website">
-                    </div>
-                    <div class="project-info">
-                        <h3>E-commerce Website</h3>
-                        <p>A fully responsive e-commerce website with product filtering, cart functionality, and secure checkout.</p>
-                        <div class="project-tags">
-                            <span>HTML</span>
-                            <span>CSS</span>
-                            <span>JavaScript</span>
-                            <span>React</span>
-                        </div>
-                        <a href="#" class="btn">View Project</a>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <div class="project-img">
-                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Task Management App">
-                    </div>
-                    <div class="project-info">
-                        <h3>Task Management App</h3>
-                        <p>A productivity application for managing daily tasks with drag-and-drop functionality and team collaboration features.</p>
-                        <div class="project-tags">
-                            <span>React</span>
-                            <span>Node.js</span>
-                            <span>MongoDB</span>
-                            <span>Express</span>
-                        </div>
-                        <a href="#" class="btn">View Project</a>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <div class="project-img">
-                        <img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1036&q=80" alt="Weather Dashboard">
-                    </div>
-                    <div class="project-info">
-                        <h3>Weather Dashboard</h3>
-                        <p>A responsive weather application that displays current conditions and forecasts for multiple cities.</p>
-                        <div class="project-tags">
-                            <span>HTML</span>
-                            <span>CSS</span>
-                            <span>JavaScript</span>
-                            <span>API</span>
-                        </div>
-                        <a href="#" class="btn">View Project</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <h3>Contact Information</h3>
-                    <p>Feel free to reach out to me for any questions or opportunities!</p>
-                    
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <div>
-                            <h4>Location</h4>
-                            <p>Morocco, Marrakech</p>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div>
-                            <h4>Email</h4>
-                            <p>aghaline20@gmail.com</p>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-phone"></i>
-                        </div>
-                        <div>
-                            <h4>Phone</h4>
-                            <p>+212618-175188</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="contact-form">
-                    <form id="contactForm">
-                        <div class="form-group">
-                            <label for="name">Ahmed</label>
-                            <input type="text" id="name" class="form-control" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="email">Your Email</label>
-                            <input type="email" id="email" class="form-control" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="subject">Subject</label>
-                            <input type="text" id="subject" class="form-control" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="message">Your Message</label>
-                            <textarea id="message" class="form-control" required></textarea>
-                        </div>
-                        
-                        <button type="submit" class="btn">Send Message</button>
-                    </form>
-                </div>
-            </div>
+            <h2>Restez informé des promotions</h2>
+            <p>Inscrivez-vous à notre newsletter pour recevoir des offres exclusives</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Votre adresse email" required>
+                <button type="submit">S'abonner</button>
+            </form>
         </div>
     </section>
 
     <!-- Footer -->
     <footer>
         <div class="container">
-            <div class="social-links">
-                <a href="#"><i class="fab fa-linkedin"></i></a>
-                <a href="#"><i class="fab fa-github"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>FreeFireShop</h3>
+                    <ul>
+                        <li><a href="#">À propos</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Politique de confidentialité</a></li>
+                        <li><a href="#">Conditions d'utilisation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Produits</h3>
+                    <ul>
+                        <li><a href="#">Diamants</a></li>
+                        <li><a href="#">Passes Elite</a></li>
+                        <li><a href="#">Objets Exclusifs</a></li>
+                        <li><a href="#">Packs Spéciaux</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Livraison</a></li>
+                        <li><a href="#">Paiement sécurisé</a></li>
+                        <li><a href="#">Nous contacter</a></li>
+                    </ul>
+                </div>
             </div>
-            <p class="copyright">&copy; 2023 Your Name. All Rights Reserved.</p>
+            <div class="copyright">
+                &copy; 2023 FreeFireShop. Tous droits réservés. Free Fire est une marque déposée de Garena.
+            </div>
         </div>
     </footer>
 
     <script>
-        // Mobile Menu Toggle
-        const menuToggle = document.querySelector('.menu-toggle');
-        const navLinks = document.querySelector('.nav-links');
-        
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
-        
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-            });
-        });
-        
-        // Form Submission
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Thank you for your message! I will get back to you soon.');
-            this.reset();
-        });
-        
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if(targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if(targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
+        // Simple cart functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const addToCartButtons = document.querySelectorAll('.add-to-cart');
+            const cartCount = document.querySelector('.cart-count');
+            let count = 0;
+            
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    count++;
+                    cartCount.textContent = count;
+                    
+                    // Animation feedback
+                    this.textContent = 'Ajouté !';
+                    this.style.backgroundColor = '#28a745';
+                    
+                    setTimeout(() => {
+                        this.textContent = 'Ajouter au panier';
+                        this.style.backgroundColor = '';
+                    }, 1500);
+                });
             });
         });
     </script>
