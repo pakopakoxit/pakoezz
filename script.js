@@ -1,317 +1,416 @@
-// Gestion du panier
-class Cart {
+// Elaraki GPT - Application de Chat IA
+// Design Extraordinaire avec les couleurs exactes d'El Araki International School
+
+class ElarakiGPT {
     constructor() {
-        this.items = JSON.parse(localStorage.getItem('pakoCheatsCart')) || [];
-        this.updateCartDisplay();
-    }
-
-    addItem(product) {
-        const existingItem = this.items.find(item => item.id === product.id);
+        this.conversation = [];
+        this.isLoading = false;
         
-        if (existingItem) {
-            existingItem.quantity += 1;
-        } else {
-            this.items.push({
-                ...product,
-                quantity: 1
+        // Éléments DOM
+        this.chatMessages = document.getElementById('chat-messages');
+        this.messageInput = document.getElementById('message-input');
+        this.sendBtn = document.getElementById('send-btn');
+        this.clearBtn = document.getElementById('clear-btn');
+        this.aboutBtn = document.getElementById('about-btn');
+        this.contactBtn = document.getElementById('contact-btn');
+        this.aboutModal = document.getElementById('about-modal');
+        this.contactModal = document.getElementById('contact-modal');
+        this.closeAboutModal = document.getElementById('close-about-modal');
+        this.closeContactModal = document.getElementById('close-contact-modal');
+        this.loadingIndicator = document.getElementById('loading-indicator');
+        this.welcomeSection = document.getElementById('welcome-section');
+        this.chatContainer = document.getElementById('chat-container');
+        this.quickActions = document.getElementById('quick-actions');
+        
+        // Configuration OpenRouter API
+        this.apiKey = "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";
+        this.apiUrl = "https://openrouter.ai/api/v1/chat/completions";
+        this.model = "openai/gpt-3.5-turbo"; // ou "openai/gpt-4", "meta-llama/llama-3.1-8b-instruct", etc.
+        
+        this.init();
+    }
+    
+    init() {
+        // Écouteurs d'événements
+        this.sendBtn.addEventListener('click', () => this.sendMessage());
+        this.messageInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                this.sendMessage();
+            }
+        });
+        
+        this.clearBtn.addEventListener('click', () => this.clearConversation());
+        this.aboutBtn.addEventListener('click', () => this.showModal(this.aboutModal));
+        this.contactBtn.addEventListener('click', () => this.showModal(this.contactModal));
+        this.closeAboutModal.addEventListener('click', () => this.hideModal(this.aboutModal));
+        this.closeContactModal.addEventListener('click', () => this.hideModal(this.contactModal));
+        
+        // Fermer les modales en cliquant à l'extérieur
+        [this.aboutModal, this.contactModal].forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal || e.target.classList.contains('modal-backdrop')) {
+                    this.hideModal(modal);
+                }
             });
-        }
+        });
         
-        this.saveToLocalStorage();
-        this.updateCartDisplay();
-        this.showAddToCartAnimation();
-    }
-
-    removeItem(productId) {
-        this.items = this.items.filter(item => item.id !== productId);
-        this.saveToLocalStorage();
-        this.updateCartDisplay();
-    }
-
-    updateQuantity(productId, quantity) {
-        const item = this.items.find(item => item.id === productId);
-        if (item) {
-            item.quantity = quantity;
-            if (item.quantity <= 0) {
-                this.removeItem(productId);
-            }
-        }
-        this.saveToLocalStorage();
-        this.updateCartDisplay();
-    }
-
-    getTotal() {
-        return this.items.reduce((total, item) => total + (item.price * item.quantity), 0);
-    }
-
-    getTotalItems() {
-        return this.items.reduce((total, item) => total + item.quantity, 0);
-    }
-
-    saveToLocalStorage() {
-        localStorage.setItem('pakoCheatsCart', JSON.stringify(this.items));
-    }
-
-    updateCartDisplay() {
-        const cartCount = document.querySelector('.cart-count');
-        if (cartCount) {
-            cartCount.textContent = this.getTotalItems();
-        }
-    }
-
-    showAddToCartAnimation() {
-        // Animation visuelle quand un produit est ajouté
-        const event = new CustomEvent('cartUpdated');
-        document.dispatchEvent(event);
-    }
-
-    clear() {
-        this.items = [];
-        this.saveToLocalStorage();
-        this.updateCartDisplay();
-    }
-}
-
-// Initialisation du panier
-const cart = new Cart();
-
-// Gestion de la modal du panier
-function setupCartModal() {
-    const cartIcon = document.getElementById('cartIcon');
-    const cartModal = document.getElementById('cartModal');
-    const closeModal = document.querySelector('.close');
-    const checkoutBtn = document.getElementById('checkoutBtn');
-
-    if (cartIcon && cartModal) {
-        cartIcon.addEventListener('click', () => {
-            showCartModal();
-        });
-
-        closeModal.addEventListener('click', () => {
-            cartModal.style.display = 'none';
-        });
-
-        window.addEventListener('click', (e) => {
-            if (e.target === cartModal) {
-                cartModal.style.display = 'none';
-            }
-        });
-    }
-
-    if (checkoutBtn) {
-        checkoutBtn.addEventListener('click', () => {
-            if (cart.items.length > 0) {
-                window.location.href = 'purchase.html';
-            } else {
-                alert('Votre panier est vide');
-            }
-        });
-    }
-}
-
-function showCartModal() {
-    const cartModal = document.getElementById('cartModal');
-    const cartItems = document.getElementById('cartItems');
-    const cartTotal = document.getElementById('cartTotal');
-
-    if (cartModal && cartItems) {
-        cartItems.innerHTML = '';
-        
-        if (cart.items.length === 0) {
-            cartItems.innerHTML = '<p class="empty-cart">Votre panier est vide</p>';
-        } else {
-            cart.items.forEach(item => {
-                const itemElement = document.createElement('div');
-                itemElement.className = 'cart-item';
-                itemElement.innerHTML = `
-                    <div>
-                        <h4>${item.name}</h4>
-                        <p>${item.price.toFixed(2)}€ x ${item.quantity}</p>
-                    </div>
-                    <div>
-                        <button class="btn-quantity" data-id="${item.id}" data-action="decrease">-</button>
-                        <span>${item.quantity}</span>
-                        <button class="btn-quantity" data-id="${item.id}" data-action="increase">+</button>
-                        <button class="btn-remove" data-id="${item.id}">×</button>
-                    </div>
-                `;
-                cartItems.appendChild(itemElement);
+        // Boutons d'actions rapides
+        document.querySelectorAll('.quick-action-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const prompt = e.target.getAttribute('data-prompt') || 
+                             e.target.closest('.quick-action-btn').getAttribute('data-prompt');
+                this.messageInput.value = prompt;
+                this.sendMessage();
             });
+        });
+        
+        // Redimensionnement automatique de la zone de texte
+        this.messageInput.addEventListener('input', () => {
+            this.autoResizeTextarea();
+        });
+        
+        // Charger la conversation depuis le localStorage
+        this.loadConversation();
+        
+        // Afficher les actions rapides après un délai
+        setTimeout(() => {
+            this.quickActions.classList.add('show');
+        }, 1000);
+    }
+    
+    autoResizeTextarea() {
+        this.messageInput.style.height = 'auto';
+        this.messageInput.style.height = Math.min(this.messageInput.scrollHeight, 120) + 'px';
+    }
+    
+    async sendMessage() {
+        const message = this.messageInput.value.trim();
+        
+        if (!message || this.isLoading) return;
+        
+        // Cacher la section de bienvenue au premier message
+        if (this.conversation.length === 0) {
+            this.hideWelcomeSection();
+        }
+        
+        // Ajouter le message utilisateur à la conversation
+        this.addMessage('user', message);
+        this.messageInput.value = '';
+        this.autoResizeTextarea();
+        
+        // Afficher l'indicateur de chargement
+        this.setLoading(true);
+        
+        try {
+            // Obtenir la réponse de l'IA
+            const response = await this.getAIResponse(message);
+            
+            // Ajouter le message de l'assistant à la conversation
+            this.addMessage('assistant', response);
+            
+            // Sauvegarder la conversation dans le localStorage
+            this.saveConversation();
+        } catch (error) {
+            console.error('Erreur:', error);
+            this.addMessage('assistant', 'Désolé, j\'ai rencontré une erreur. Veuillez réessayer. Erreur: ' + error.message);
+        } finally {
+            this.setLoading(false);
+        }
+    }
+    
+    async getAIResponse(userMessage) {
+        // Ajouter le message utilisateur au tableau de conversation pour l'API
+        this.conversation.push({ role: "user", content: userMessage });
+        
+        // Préparer la requête OpenRouter API
+        const requestBody = {
+            model: this.model,
+            messages: this.conversation,
+            max_tokens: 1000,
+            temperature: 0.7,
+            stream: false
+        };
+        
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${this.apiKey}`,
+            'HTTP-Referer': 'https://elaraki.ac.ma', // URL de votre site
+            'X-Title': 'Elaraki GPT' // Nom de votre application
+        };
+        
+        try {
+            const response = await fetch(this.apiUrl, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(requestBody)
+            });
+            
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`Erreur API ${response.status}: ${errorText}`);
+            }
+            
+            const data = await response.json();
+            
+            // Vérifier la structure de la réponse OpenRouter
+            if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+                throw new Error('Format de réponse API invalide');
+            }
+            
+            // Extraire la réponse de l'assistant
+            const assistantMessage = data.choices[0].message.content;
+            
+            // Ajouter le message de l'assistant au tableau de conversation
+            this.conversation.push({ role: "assistant", content: assistantMessage });
+            
+            return assistantMessage;
+        } catch (error) {
+            console.error('Erreur API:', error);
+            throw error;
+        }
+    }
 
-            // Ajouter les événements pour les boutons
-            document.querySelectorAll('.btn-quantity').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const productId = parseInt(e.target.dataset.id);
-                    const action = e.target.dataset.action;
-                    const item = cart.items.find(item => item.id === productId);
-                    
-                    if (item) {
-                        if (action === 'increase') {
-                            cart.updateQuantity(productId, item.quantity + 1);
-                        } else if (action === 'decrease') {
-                            cart.updateQuantity(productId, item.quantity - 1);
+    // Fonction pour envoyer des images (fonctionnalité avancée)
+    async sendMessageWithImage(message, imageUrl) {
+        if (!message || this.isLoading) return;
+        
+        // Cacher la section de bienvenue au premier message
+        if (this.conversation.length === 0) {
+            this.hideWelcomeSection();
+        }
+        
+        // Ajouter le message utilisateur à la conversation
+        this.addMessage('user', message + ' [Image]');
+        this.setLoading(true);
+        
+        try {
+            // Préparer le message avec image pour OpenRouter
+            const messagesWithImage = [
+                ...this.conversation,
+                {
+                    role: "user",
+                    content: [
+                        {
+                            type: "text",
+                            text: message
+                        },
+                        {
+                            type: "image_url",
+                            image_url: {
+                                url: imageUrl
+                            }
                         }
-                    }
-                });
-            });
-
-            document.querySelectorAll('.btn-remove').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const productId = parseInt(e.target.dataset.id);
-                    cart.removeItem(productId);
-                });
-            });
-        }
-
-        if (cartTotal) {
-            cartTotal.textContent = cart.getTotal().toFixed(2) + '€';
-        }
-
-        cartModal.style.display = 'flex';
-    }
-}
-
-// Gestion des boutons "Ajouter au panier"
-function setupAddToCartButtons() {
-    document.querySelectorAll('.btn-add-cart').forEach(button => {
-        button.addEventListener('click', (e) => {
-            const product = {
-                id: parseInt(e.target.dataset.id),
-                name: e.target.dataset.name,
-                price: parseFloat(e.target.dataset.price)
+                    ]
+                }
+            ];
+            
+            const requestBody = {
+                model: this.model,
+                messages: messagesWithImage,
+                max_tokens: 1000,
+                temperature: 0.7
             };
             
-            cart.addItem(product);
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.apiKey}`,
+                'HTTP-Referer': 'https://elaraki.ac.ma',
+                'X-Title': 'Elaraki GPT'
+            };
             
-            // Animation du bouton
-            const originalText = e.target.textContent;
-            e.target.textContent = '✓ Ajouté !';
-            e.target.style.background = 'linear-gradient(45deg, #2ecc71, #27ae60)';
+            const response = await fetch(this.apiUrl, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(requestBody)
+            });
             
-            setTimeout(() => {
-                e.target.textContent = originalText;
-                e.target.style.background = '';
-            }, 2000);
-        });
-    });
-}
-
-// Génération du code de transaction unique
-function generateTransactionCode() {
-    const timestamp = Date.now().toString(36);
-    const random = Math.random().toString(36).substr(2, 5);
-    return `PAKO-${timestamp}-${random}`.toUpperCase();
-}
-
-// Gestion de la page de paiement
-function setupPurchasePage() {
-    const orderItems = document.getElementById('orderItems');
-    const orderTotal = document.getElementById('orderTotal');
-    const transactionCode = document.getElementById('transactionCode');
-    const transactionCodeDisplay = document.getElementById('transactionCodeDisplay');
-    const paymentAmount = document.getElementById('paymentAmount');
-    const bankAmount = document.getElementById('bankAmount');
-    const confirmPayment = document.getElementById('confirmPayment');
-
-    if (orderItems && cart.items.length > 0) {
-        orderItems.innerHTML = '';
-        cart.items.forEach(item => {
-            const itemElement = document.createElement('div');
-            itemElement.className = 'cart-item';
-            itemElement.innerHTML = `
-                <div>
-                    <h4>${item.name}</h4>
-                    <p>Quantité: ${item.quantity}</p>
-                </div>
-                <div>${(item.price * item.quantity).toFixed(2)}€</div>
-            `;
-            orderItems.appendChild(itemElement);
-        });
-
-        const total = cart.getTotal();
-        if (orderTotal) orderTotal.textContent = total.toFixed(2) + '€';
-        if (paymentAmount) paymentAmount.textContent = total.toFixed(2) + '€';
-        if (bankAmount) bankAmount.textContent = total.toFixed(2) + '€';
-
-        // Générer et afficher le code de transaction
-        const code = generateTransactionCode();
-        if (transactionCode) transactionCode.textContent = code;
-        if (transactionCodeDisplay) transactionCodeDisplay.textContent = code;
-
-        // Sauvegarder le code de transaction
-        localStorage.setItem('transactionCode', code);
-        localStorage.setItem('transactionAmount', total.toFixed(2));
-    } else if (orderItems && cart.items.length === 0) {
-        orderItems.innerHTML = '<p>Votre panier est vide. <a href="panels.html">Retourner à la boutique</a></p>';
-    }
-
-    if (confirmPayment) {
-        confirmPayment.addEventListener('click', () => {
-            if (cart.items.length > 0) {
-                const code = localStorage.getItem('transactionCode');
-                const amount = localStorage.getItem('transactionAmount');
-                
-                alert(`Paiement confirmé!\n\nCode de transaction: ${code}\nMontant: ${amount}€\n\nVeuillez envoyer la capture d'écran de votre virement sur notre Discord. Notre équipe traitera votre commande dans les 2 heures.`);
-                
-                // Vider le panier après confirmation
-                cart.clear();
-                localStorage.removeItem('transactionCode');
-                localStorage.removeItem('transactionAmount');
-                
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 3000);
+            if (!response.ok) {
+                throw new Error(`Erreur API ${response.status}`);
             }
+            
+            const data = await response.json();
+            const assistantMessage = data.choices[0].message.content;
+            
+            // Mettre à jour la conversation
+            this.conversation.push({ 
+                role: "user", 
+                content: message 
+            });
+            this.conversation.push({ 
+                role: "assistant", 
+                content: assistantMessage 
+            });
+            
+            this.addMessage('assistant', assistantMessage);
+            this.saveConversation();
+            
+        } catch (error) {
+            console.error('Erreur:', error);
+            this.addMessage('assistant', 'Désolé, erreur lors du traitement de l\'image.');
+        } finally {
+            this.setLoading(false);
+        }
+    }
+    
+    addMessage(role, content) {
+        const messageElement = document.createElement('div');
+        messageElement.className = `message ${role}`;
+        
+        const messageContent = document.createElement('div');
+        messageContent.className = 'message-content';
+        
+        // Formater le contenu avec des sauts de ligne
+        const formattedContent = content.replace(/\n/g, '<br>');
+        messageContent.innerHTML = formattedContent;
+        
+        const timestamp = document.createElement('div');
+        timestamp.className = 'message-timestamp';
+        timestamp.textContent = new Date().toLocaleTimeString('fr-FR', { 
+            hour: '2-digit', 
+            minute: '2-digit' 
         });
+        
+        messageContent.appendChild(timestamp);
+        messageElement.appendChild(messageContent);
+        
+        this.chatMessages.appendChild(messageElement);
+        this.scrollToBottom();
+    }
+    
+    scrollToBottom() {
+        this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+    }
+    
+    setLoading(loading) {
+        this.isLoading = loading;
+        this.sendBtn.disabled = loading;
+        
+        if (loading) {
+            this.loadingIndicator.classList.add('show');
+            // Mettre à jour l'indicateur AI
+            const aiDot = document.querySelector('.ai-dot');
+            const aiText = document.querySelector('.ai-indicator span');
+            if (aiDot) aiDot.style.background = '#dc2626';
+            if (aiText) aiText.textContent = 'Elaraki GPT réfléchit...';
+        } else {
+            this.loadingIndicator.classList.remove('show');
+            // Remettre l'indicateur AI à normal
+            const aiDot = document.querySelector('.ai-dot');
+            const aiText = document.querySelector('.ai-indicator span');
+            if (aiDot) aiDot.style.background = '#059669';
+            if (aiText) aiText.textContent = 'Elaraki GPT est prêt';
+        }
+    }
+    
+    hideWelcomeSection() {
+        this.welcomeSection.classList.add('hidden');
+        this.chatContainer.classList.remove('hidden');
+    }
+    
+    showWelcomeSection() {
+        this.welcomeSection.classList.remove('hidden');
+        this.chatContainer.classList.add('hidden');
+    }
+    
+    clearConversation() {
+        this.conversation = [];
+        this.chatMessages.innerHTML = '';
+        this.showWelcomeSection();
+        
+        // Effacer le localStorage
+        localStorage.removeItem('elarakiGPTConversation');
+    }
+    
+    showModal(modal) {
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    hideModal(modal) {
+        modal.classList.remove('show');
+        document.body.style.overflow = 'auto';
+    }
+    
+    saveConversation() {
+        if (this.conversation.length > 0) {
+            localStorage.setItem('elarakiGPTConversation', JSON.stringify(this.conversation));
+        }
+    }
+    
+    loadConversation() {
+        const savedConversation = localStorage.getItem('elarakiGPTConversation');
+        
+        if (savedConversation) {
+            try {
+                this.conversation = JSON.parse(savedConversation);
+                
+                // Cacher la section de bienvenue
+                this.hideWelcomeSection();
+                
+                // Afficher la conversation sauvegardée
+                this.conversation.forEach(message => {
+                    this.addMessage(message.role, message.content);
+                });
+            } catch (error) {
+                console.error('Erreur lors du chargement de la conversation:', error);
+                this.clearConversation();
+            }
+        }
+    }
+
+    // Méthode pour changer le modèle AI
+    setModel(newModel) {
+        this.model = newModel;
+        console.log(`Modèle changé pour: ${newModel}`);
+    }
+
+    // Méthode pour obtenir les informations du modèle actuel
+    getCurrentModel() {
+        return this.model;
     }
 }
 
-// Initialisation au chargement de la page
-document.addEventListener('DOMContentLoaded', function() {
-    setupAddToCartButtons();
-    setupCartModal();
+// Initialiser l'application lorsque le DOM est chargé
+document.addEventListener('DOMContentLoaded', () => {
+    const elarakiGPT = new ElarakiGPT();
     
-    // Vérifier si on est sur la page de paiement
-    if (window.location.pathname.includes('purchase.html')) {
-        setupPurchasePage();
-    }
-    
-    // Animation de fade-in au scroll
-    const fadeElements = document.querySelectorAll('.product-card, .feature-card');
-    
-    const fadeInOnScroll = function() {
-        fadeElements.forEach(element => {
-            const elementTop = element.getBoundingClientRect().top;
-            const elementVisible = 150;
-            
-            if (elementTop < window.innerHeight - elementVisible) {
-                element.style.opacity = "1";
-                element.style.transform = "translateY(0)";
-            }
-        });
-    };
-    
-    // Set initial state
-    fadeElements.forEach(element => {
-        element.style.opacity = "0";
-        element.style.transform = "translateY(20px)";
-        element.style.transition = "opacity 0.8s ease, transform 0.8s ease";
-    });
-    
-    window.addEventListener('scroll', fadeInOnScroll);
-    fadeInOnScroll(); // Initial check
+    // Exposer l'instance globalement pour le débogage
+    window.elarakiGPT = elarakiGPT;
 });
 
-// Gestion des onglets de navigation
-function setActiveNav() {
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-    document.querySelectorAll('nav a').forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === currentPage) {
-            link.classList.add('active');
+// Gérer le redimensionnement de la fenêtre
+window.addEventListener('resize', () => {
+    const messageInput = document.getElementById('message-input');
+    if (messageInput) {
+        messageInput.style.height = 'auto';
+        messageInput.style.height = Math.min(messageInput.scrollHeight, 120) + 'px';
+    }
+});
+
+// Fonction utilitaire pour tester la connexion API
+async function testAPIConnection() {
+    try {
+        const response = await fetch('https://openrouter.ai/api/v1/models', {
+            headers: {
+                'Authorization': 'Bearer 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'
+            }
+        });
+        
+        if (response.ok) {
+            console.log('✅ Connexion OpenRouter réussie');
+            return true;
+        } else {
+            console.error('❌ Erreur de connexion OpenRouter');
+            return false;
         }
-    });
+    } catch (error) {
+        console.error('❌ Erreur de connexion:', error);
+        return false;
+    }
 }
 
-// Appeler cette fonction après le chargement de la page
-document.addEventListener('DOMContentLoaded', setActiveNav);
+// Tester la connexion au chargement
+window.addEventListener('load', () => {
+    setTimeout(testAPIConnection, 1000);
+});
